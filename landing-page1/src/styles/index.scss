@@ -1,0 +1,201 @@
+$siteWidth: 70%;
+
+body {
+  margin: 0;
+  color: #fff;
+  font-family: 'Ubuntu', sans-serif;
+  background: linear-gradient(47deg, rgba(93,79,188,1) 0%, #b5ace7
+  100%);
+}
+
+.header {
+  height: 10vh;
+  width: $siteWidth;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+
+  #logo {
+    flex-grow: 1;
+    padding-top: 20px;
+    position: relative;
+    height: 100%;
+
+    img {
+      height: 40%;
+    }
+  }
+
+  nav {
+    height: 100%;
+
+    a {
+      text-decoration: none;
+      color: #fff;
+      position: relative;
+      padding-top: 20px;
+      height: 100%;
+      display: inline-block;
+      padding-left: 2vh;
+      align-self: center;
+      text-transform: uppercase;
+
+      @media only screen and (min-width: 600px) {
+        padding-left: 10vh;
+      }
+
+      &:hover {
+        &:after {
+          width: 100%;
+        }
+      }
+
+      &:after {
+        content: '';
+        display: block;
+        width: 0;
+        border-radius: 5%;
+        height: 3px;
+        background: rgba(250,250, 250, .6);
+        transition: width .3s;
+      }
+    }
+  }
+}
+
+.main {
+  display: grid;
+  width: $siteWidth;
+  margin: 0 auto;
+
+  grid-template-columns: 100%;
+  grid-template-rows: 90vh auto;
+  grid-template-areas: "mytext"
+                       "images";
+
+  @media only screen and (min-width: 600px) {
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 10% 80% 10%;
+    min-height: 90vh;
+    grid-template-areas: ". ."
+                         "mytext images"
+                         ". .";  
+  }
+
+  .images {
+    grid-area: images;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+  }
+
+  .text {
+    grid-area: mytext;
+    justify-self: left;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 20vh 10px 1fr 1fr 1fr;
+    grid-template-areas: ". . "
+                        "hr ."
+                        "text text"
+                        "description description"
+                        "button1 button2";
+
+    @media only screen and (min-width: 600px) {
+      grid-template-rows: 50px 1fr 3fr 1fr 2fr;
+    }
+    
+    .trenner {
+      grid-area: hr;
+      border-bottom: 1px solid rgba(250,250, 250, .6);
+    }
+
+    .description {
+      grid-area: description;
+      font-size: 1.4rem;
+      margin-top: 1vh;
+    }
+
+    h1 {
+      grid-area: text;
+      font-size: 3rem;
+      margin-bottom: 3vh;
+
+      @media only screen and (min-width: 600px) {
+        font-size: 5rem;
+      }
+    }
+
+    .button1, .button2 {
+      button {
+        width: 80%;
+        border: none;
+        border-radius: 25px;
+        padding: 20px;
+        background-color: yellow;
+        font-size: 1rem;
+        font-weight: bold;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+    .button1 {
+      grid-area: button1;
+
+      button {
+        background-color: #fff;
+      }
+    }
+
+    .button2 {
+      grid-area: button2;
+
+      button {
+        background-color: #6C63BE;
+        border: 1px solid #fff;
+        color: #fff;
+      }
+    }
+  }
+
+  .first-image, .second-image, .third-image {
+    filter: sepia(57%) saturate(80%);
+    background-size: cover;
+    border-radius: 10%;
+  }
+
+  .first-image {
+    background-image: url("http://tinyurl.com/y4skhb5s");
+    grid-column-start: 1;
+    grid-column-end: 6;
+    grid-row-start: 2;
+    grid-row-end: 9;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    background-position: center; 
+  }
+
+  .second-image {
+    background-image: url("http://tinyurl.com/yxvbyhmv");
+    grid-column-start: 4;
+    grid-column-end: 8;
+    grid-row-start: 8;
+    grid-row-end: 11;
+    z-index: 88;
+  }
+
+  .third-image {
+    background-image: url("http://tinyurl.com/y59cggnw");
+    grid-column-start: 7;
+    grid-column-end: 12;
+    grid-row-start: 4;
+    grid-row-end: 10;
+    z-index: 88;
+    background-position: 40% 50%; 
+  }
+}
