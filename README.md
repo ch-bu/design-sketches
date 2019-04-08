@@ -13,3 +13,9 @@ This is a bunch of design sketches I improve my desing skills.
 [Have a look](https://ch-bu.github.io/design-sketches/landing-page-2/)
 
 ![](./landing-page-2/desktop.png)
+
+## Grid Animation
+
+[Have a look](https://ch-bu.github.io/design-sketches/grid-animation/)
+
+![](./grid-animation/grid-animation.png)

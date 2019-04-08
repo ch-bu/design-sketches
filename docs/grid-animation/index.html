@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>webpack starterkit</title>
+  <link rel="stylesheet" href="index.css">
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    main {
+      height: 100vh;
+      display: grid;
+      grid-template-rows: repeat(20, 1fr);
+      grid-template-columns: repeat(30, 1fr);
+      background: rgba(240,93,166,1);
+    }
+
+    main > div {
+      border: 1px solid #f37db7;
+    }
+
+    #box {
+      grid-column: 10;
+      border: none;
+      grid-row: 6;
+      background: linear-gradient(37deg, rgba(93,166,240,1) 0%, rgba(141,192,244,1) 100%);
+      transition: all 0.08s;
+    }
+
+    .transit {
+      transform: scale(1.5);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div id="box"></div>
+    <audio src="click.mp3"></audio>
+  </main>
+
+  <script>
+
+    const box = document.querySelector("#box");
+    const sound = document.querySelector("audio");
+    const main = document.querySelector("main");
+
+    // Create grid
+    for (x = 0; x < 600; x++) {
+      const gridDiv = document.createElement("div");
+      main.appendChild(gridDiv);
+    }
+
+    window.addEventListener("keydown", function(e) {
+      const key = e.keyCode;
+
+      sound.currentTime = 0;
+      sound.play();
+
+
+      // Get row and column of box
+      const currentColumn = parseInt(window.getComputedStyle(box)["grid-column"]);
+      const currentRow = parseInt(window.getComputedStyle(box)["grid-row"]);
+
+      var newRow = currentRow;
+      var newColumn = currentColumn;
+
+      switch (key) {
+        // Left key
+        case 37:
+          newColumn = currentColumn - 1;
+          break;
+        // Right key
+        case 39:
+          newColumn = currentColumn + 1;
+          break;
+        // Up key
+        case 38:
+          newRow = currentRow - 1;
+          break;
+        // Down key
+        case 40:
+          newRow = currentRow + 1;
+          break;
+      }
+      console.log(newColumn);
+
+      if (newColumn <= 30 && newColumn > 0) {
+        box.style["grid-column"] = newColumn;
+      }
+      
+      if (newRow <= 20 && newRow > 0) {
+        box.style["grid-row"] = newRow;
+      }
+
+      // Add animation
+      box.classList.add("transit");
+      
+    });
+
+    box.addEventListener("transitionend", function(e) {
+      this.classList.remove("transit");
+    });
+
+
+  </script>
+</body>
+</html>
