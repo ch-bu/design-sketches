@@ -8,7 +8,7 @@ const HeroDiv = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10vh;
+  margin-top: 30vh;
 
   h2 {
     order: 0;
@@ -57,7 +57,8 @@ class Hero extends React.Component {
             transform: "scale(1)",
             transform: "translateX(0px)"
           }}
-          config={{duration: 500, tension: 180, friction: 12}}>
+          // delay= '1000'
+          config={{duration: 500, tension: 180, friction: 12, delay: 500}}>
           {props => <h2 style={props}>The Grass is Singing</h2>}
         </Spring>
         <p>2 Okt, 2019<br />13 Jan, 2020</p>

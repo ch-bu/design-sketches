@@ -8,6 +8,7 @@ const Grid = styled.div`
   margin-top: 50vh;
   display: grid;
   height: 800px;
+  z-index: 90;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(1fr, 5);
   grid-template-areas: "box1 box1"
@@ -20,7 +21,7 @@ const Grid = styled.div`
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     grid-template-areas: ". . box1 box1"
-                        "box2 box3 . ."
+                        "box2 box3 box3 box3"
                         "box2 box4 box5 box6";
   }
 
@@ -90,7 +91,7 @@ class GridContainer extends React.Component {
                           partialVisibility offset={{ top: 100 }}>
           {({ isVisible }) => (
             <Spring
-              delay={300}
+              // delay={100}
               to={{ 
                 opacity: isVisible ? 1 : 0,
                 transform: isVisible ? "translateX(0)" : "translateX(600px)"
