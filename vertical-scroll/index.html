@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Slides</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+
+    :root {
+      --transition: 0vw;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-y: hidden;
+      overflow-x: hidden;
+      cursor: pointer;
+    }
+
+    .container {
+      display: flex;
+      flex: 1;
+      width: 600vw;
+      align-items: center;
+      height: 100vh;
+      transform: translateX(var(--transition));
+      transition: all 0.8s cubic-bezier(0.61,-0.19, 0.7,-0.11);
+    }
+
+    .slide {
+      justify-content: center;
+      width: 100vw;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .slide1 { background-image: url(https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);}
+    .slide2 { background-image: url(https://static1.squarespace.com/static/5856bc666a49634cd55b0ba9/5856bd65298526c155b6e56e/5bc0bd42f9619a71d8622884/1551743869048/bora-bora-3023437.jpg?format=1000w);}
+    .slide3 { background-image: url(http://hdwpro.com/wp-content/uploads/2016/02/Cool-Beautiful-Wallpaper.jpeg);}
+    .slide4 { background-image: url(http://thewowstyle.com/wp-content/uploads/2015/02/Beautiful-Wallpapers-14.jpg);}
+    .slide5 { background-image: url(https://cdn.cnn.com/cnnnext/dam/assets/170123102557-beautiful-india-valley-of-flowers-flickr-alosh-bennett-4951216953.jpg);}
+    .slide6 { background-image: url(https://media.architecturaldigest.com/photos/583dd281efb84d105bd0303e/master/pass/Most%20Beautiful%20Streets%20Around%20the%20World%20-%203.jpg);}
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="slide slide1"></div>
+    <div class="slide slide2"></div>
+    <div class="slide slide3"></div>
+    <div class="slide slide4"></div>
+    <div class="slide slide5"></div>
+    <div class="slide slide6"></div>
+  </div>
+
+  <script>
+
+    function moveSlides(e) {
+      const x = e.x;
+      const w = window.innerWidth;
+      const scrollPosition = getComputedStyle(document.body).getPropertyValue('--transition');
+      const scrollPositionNum = parseInt(scrollPosition.replace('vw', ''));
+
+      if ((x / w) > 0.5) {
+        (scrollPositionNum >  -500) ? document.documentElement.style.setProperty(`--transition`, scrollPositionNum - 100 + "vw") : null;
+      } else {
+        (scrollPositionNum <= -100) ? document.documentElement.style.setProperty(`--transition`, scrollPositionNum + 100 + "vw") : null;
+      }
+    }
+
+    document.addEventListener('click', moveSlides);
+    document.addEventListener('touchstart', moveSlides);
+  </script>
+</body>
+</html>
