@@ -7,3 +7,5 @@ node_modules/
 next-website/out
 
 out/
+
+.vscode/

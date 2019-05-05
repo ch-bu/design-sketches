@@ -4,11 +4,15 @@ import { MdHome, MdSearch, MdLocalLibrary, MdCloudDownload } from 'react-icons/m
 
 const AsideDiv = styled.div`
   grid-area: aside;
-  /* background-color: #111; */
   background-image: linear-gradient(to bottom, #111111, #0f1010, #0d0e0f, #0a0d0e, #070b0c);
   display: flex;
   flex-direction: column;
   color: #fff;
+  overflow-y: scroll;
+
+  @media only screen and (min-width: 600px) {
+    overflow-y: hidden;
+  }
 `;
 
 const Logo = styled.div`
@@ -38,6 +42,12 @@ const Link = styled.div`
       grid-template-columns: auto 1fr;
       align-items: center;
       grid-template-rows: 1fr;
+      transition: color 0.3s;
+      cursor: pointer;
+
+      &:hover {
+        color: #fff;
+      }
 
       span {
         padding: 0 20px;
