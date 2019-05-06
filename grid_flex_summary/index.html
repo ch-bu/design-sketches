@@ -1,0 +1,475 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+  </head>
+  <body>
+    
+    <h1>Flexbox</h1>
+
+    <p>With flex grow you can manage the remaining amount of space.</p>
+
+    <pre>
+    .flexsize {
+      display: flex;
+      border: 2px solid darkmagenta;
+    }
+
+    .flexsize a {
+      background-color: aliceblue;
+      border-right: 2px solid grey;
+      min-width: 10vw;
+    }
+
+    .flexsize a:first-child {
+      flex-grow: 1;
+    }
+    </pre>
+
+
+    <div class="flexsize">
+      <a href="">1</a>
+      <a href="">2</a>
+      <a href="">3</a>
+    </div>
+
+
+    <p>Justify-content justifies the whole flexbox, align-items adjusts the flexitems vertically</p>
+
+    <pre>
+    .justalign {
+      display: flex;
+      flex-wrap: wrap;
+      border: 2px solid darkmagenta;
+      justify-content: space-evenly;
+      align-items: flex-end;
+      min-height: 400px;
+    }
+
+    .justalign .image1 {
+      height: 150px;
+    }
+
+    .justalign .image2 {
+      height: 100px;
+    }
+
+    .justalign img {
+      height: 300px;
+      object-fit: cover;
+    }
+    </pre>
+
+    <div class="justalign">
+      <img src="https://source.unsplash.com/random/120x220?v=5" alt="" class="image1">
+      <img src="https://source.unsplash.com/random/220x420?v=7" alt="" class="image2">
+      <img src="https://source.unsplash.com/random/220x520?v=7" alt="" class="image3">
+      <img src="https://source.unsplash.com/random/220x250?v=7" alt="" class="image4">
+    </div>
+
+    <p>Flex-shrink shinks a flex element when it is smaller than the element's flex-basis.</p>
+
+
+    <pre>
+    .growshrink {
+      display: flex;
+      border: 2px solid darkmagenta;
+      height: 200px;
+    }
+
+    .growshrink div {
+      flex-basis: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .growshrink .box1 {
+      background-color: navy;
+      color: #fff;
+    }
+
+    .growshrink .box2 {
+      background-color: lightcoral;
+      flex-grow: 1;
+      flex-shrink: 6;
+    }
+    </pre>
+
+    <div class="growshrink">
+      <div class="box1">1</div>
+      <div class="box2">2</div>
+    </div>
+
+    <p>Flex can be used to make a link full height, for example in navs</p>
+
+    <pre>
+    .centernav {
+      display: flex;
+      border: 2px solid darkmagenta;
+      height: 100px;
+    }
+
+    .centernav a {
+      background-color: hsla(200, 1%, 41%, 0.315);
+      flex: 1 1 10%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .centernav a:hover {
+      background-color: hsla(200, 1%, 41%, 0.215);
+    }
+    </pre>
+
+    <div class="centernav">
+      <a href="" class="link1">Link1</a>
+      <a href="" class="link2">Link2</a>
+      <a href="" class="link3">Link3</a>
+      <a href="" class="link4">Link4</a>
+      <a href="" class="link5">Link5</a>
+    </div>
+
+    <p>Calc is handy when you add borders to an element in flex boxes. Let's say your elements add up perfectly without borders. But when you add borders your design breaks because your elements are too wide. You can then substract the borders from the elements width.</p>
+
+    <pre>
+    .calc {
+      border: 2px solid darkmagenta;
+      display: flex;
+      height: 200px;
+    }
+
+    .calc div {
+      background-color: hotpink;
+      min-width: calc(33.333% - 40px);
+      text-align: center;
+      font-size: 3rem;
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      border: 20px solid #69b4ff;
+    }
+    </pre>
+
+    <div class="calc">
+      <div class="box">1</div>
+      <div class="box">2</div>
+      <div class="box">3</div>
+    </div>
+
+    <h1>CSS Grid</h1>
+
+    <p>Auto works similar to flex-grow. It allocates the remaining space to the other grid elements relative to the element's size.</p>
+
+
+    <pre>
+    .auto {
+      border: 2px solid darkmagenta;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      grid-template-rows: 50px 100px;
+      grid-gap: 20px;
+    }
+
+    .auto div {
+      background-color: chocolate;
+    }
+    </pre>
+
+    <div class="auto">
+      <div class="box1">This is such a big box</div>
+      <div class="box2">2</div>
+      <div class="box3">This as well</div>
+      <div class="box4">4</div>
+      <div class="box5">5</div>
+    </div>
+
+    <p>grid-fill: add as many elements as fit into the grid container. Works well with minmax</p>
+
+    <pre>
+    .autofill {
+      border: 2px solid darkmagenta;
+      display: grid;
+      grid-gap: 5px;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .autofill div {
+      background-color: chocolate;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+    </pre>
+
+    <div class="autofill">
+      <div class="box1">1</div>
+      <div class="box2">2</div>
+      <div class="box3">3</div>
+      <div class="box4">4</div>
+      <div class="box5">5</div>
+      <div class="box6">6</div>
+      <div class="box7">7</div>
+      <div class="box8">8</div>
+      <div class="box9">9</div>
+      <div class="box10">10</div>
+      <div class="box11">11</div>
+      <div class="box12">12</div>
+      <div class="box13">13</div>
+      <div class="box14">14</div>
+      <div class="box15">15</div>
+      <div class="box16">16</div>
+      <div class="box17">17</div>
+      <div class="box18">18</div>
+      <div class="box19">19</div>
+      <div class="box20">20</div>
+      <div class="box21">21</div>
+      <div class="box22">22</div>
+      <div class="box23">23</div>
+      <div class="box24">24</div>
+    </div>
+
+
+    <p>With grid-column and grid-row you can playe elements on specific positions on your grid. Span allows you to extend your grid items over multiple columns or rows. With grid-auto-flow: dense you can fill up the empty grid items so that your grid does not have empty holes.</p>
+
+    <pre>
+    .specific {
+      display: grid;
+      grid-gap: 10px;
+      grid-template-columns: repeat(2, 1fr 2fr 5fr);
+      grid-template-rows: repeat(1, 50px 100px 20px);
+      grid-auto-flow: dense;
+      grid-auto-rows: 300px;
+      border: 2px solid darkmagenta;
+    }
+
+    .specific div {
+      background-color: violet;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .specific .box13 {
+      grid-column: 1 / span 4;
+      background-color: blue;
+    }
+
+    .specific .box17 {
+      grid-row: span 2;
+      background-color: palegreen;
+    }
+
+    .specific .box18 {
+      grid-column: 1 / span 3;
+      background-color: crimson;
+    }
+    </pre>
+
+    <div class="specific">
+      <div class="box1">1</div>
+      <div class="box2">2</div>
+      <div class="box3">3</div>
+      <div class="box4">4</div>
+      <div class="box5">5</div>
+      <div class="box6">6</div>
+      <div class="box10">10</div>
+      <div class="box11">11</div>
+      <div class="box12">12</div>
+      <div class="box13">13</div>
+      <div class="box14">14</div>
+      <div class="box15">15</div>
+      <div class="box16">16</div>
+      <div class="box17">17</div>
+      <div class="box18">18</div>
+      <div class="box19">19</div>
+      <div class="box20">20</div>
+      <div class="box21">21</div>
+      <div class="box22">22</div>
+      <div class="box23">23</div>
+      <div class="box24">24</div>
+    </div>
+
+    <style>
+      
+      body {
+        width: 90vw;
+        margin: 0 auto;
+        margin-top: 5vh;
+        margin-bottom: 35vh;
+      }
+
+
+      a {
+        text-decoration: none;
+        font-size: 2rem;
+        color: #000;
+        text-align: center;
+      }
+
+      .flexsize {
+        display: flex;
+        border: 2px solid darkmagenta;
+      }
+
+      .flexsize a {
+        background-color: aliceblue;
+        border-right: 2px solid grey;
+        min-width: 10vw;
+      }
+
+      .flexsize a:first-child {
+        flex-grow: 1;
+      }
+
+      .justalign {
+        display: flex;
+        flex-wrap: wrap;
+        border: 2px solid darkmagenta;
+        justify-content: space-evenly;
+        align-items: flex-end;
+        min-height: 400px;
+      }
+
+      .justalign .image1 {
+        height: 150px;
+      }
+
+      .justalign .image2 {
+        height: 100px;
+      }
+
+      .justalign img {
+        height: 300px;
+        object-fit: cover;
+      }
+
+      .growshrink {
+        display: flex;
+        border: 2px solid darkmagenta;
+        height: 200px;
+      }
+
+      .growshrink div {
+        flex-basis: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+      }
+
+      .growshrink .box1 {
+        background-color: navy;
+        color: #fff;
+      }
+
+      .growshrink .box2 {
+        background-color: lightcoral;
+        flex-grow: 1;
+        flex-shrink: 6;
+      }
+
+      .centernav {
+        display: flex;
+        border: 2px solid darkmagenta;
+        height: 100px;
+      }
+
+      .centernav a {
+        background-color: hsla(200, 1%, 41%, 0.315);
+        flex: 1 1 10%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .centernav a:hover {
+        background-color: hsla(200, 1%, 41%, 0.215);
+      }
+
+      .calc {
+        border: 2px solid darkmagenta;
+        display: flex;
+        height: 200px;
+      }
+
+      .calc div {
+        background-color: hotpink;
+        min-width: calc(33.333% - 40px);
+        text-align: center;
+        font-size: 3rem;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        border: 20px solid #69b4ff;
+      }
+
+      .auto {
+        border: 2px solid darkmagenta;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        grid-template-rows: 50px 100px;
+        grid-gap: 20px;
+      }
+
+      .auto div {
+        background-color: chocolate;
+      }
+
+      .autofill {
+        border: 2px solid darkmagenta;
+        display: grid;
+        grid-gap: 5px;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+
+      .autofill div {
+        background-color: chocolate;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+      }
+
+      .specific {
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: repeat(2, 1fr 2fr 5fr);
+        grid-template-rows: repeat(1, 50px 100px 20px);
+        grid-auto-flow: dense;
+        grid-auto-rows: 300px;
+        border: 2px solid darkmagenta;
+      }
+
+      .specific div {
+        background-color: violet;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+      }
+
+      .specific .box13 {
+        grid-column: 1 / span 4;
+        background-color: blue;
+      }
+
+      .specific .box17 {
+        grid-row: span 2;
+        background-color: palegreen;
+      }
+
+      .specific .box18 {
+        grid-column: 1 / span 3;
+        background-color: crimson;
+      }
+
+    </style>
+  </body>
+</html>
