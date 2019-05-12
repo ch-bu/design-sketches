@@ -1,0 +1,317 @@
+<html>
+  <head>
+    <title>My work</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.2/d3.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville" rel="stylesheet">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+  </head>
+  <body>
+
+    <div class="container">
+      <h1>"Too Much to Do, Too Little Time"</h1>
+      <svg id="mywork"></svg>
+      <div class="buttons"></div>
+    </div>
+
+    <style>
+
+      .container {
+        margin: 0 auto;
+        width: 90vw;
+        max-width: 1500px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      body {
+        font-family: 'Libre Baskerville', serif;
+        background-image: linear-gradient(to left bottom, #323232, #353535, #383838, #3c3c3c, #3f3f3f);
+      }
+
+      .buttons {
+        margin-top: 5vh;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .button {
+        font-family: 'Libre Baskerville', serif;
+        padding: 5px;
+        font-size: 1.3rem;
+        border: none;
+        color: rgba(255, 255, 255, .9);
+        margin: 5px;
+        background-color: #aa892f;
+        cursor: pointer;
+        border-radius: 5px;
+        outline: 0;
+      }
+
+      .button.work-button {
+        background-color: #0bfecb;
+        color: rgba(0, 0, 0, .9);
+      }
+
+      .button.work-button:hover {
+        background-color: #07b18e;
+      }
+
+      .button:hover {
+        background-color: #fecb0b;
+        color: #000;
+      }
+
+      .highlight {
+        background-color: #fecb0b;
+        color: #000;
+      }
+
+      .button.work-button.highlight {
+        background-color: #07b18e;
+      }
+
+      .axis line, path {
+        stroke: none;
+      }
+
+      .axis.axis-x text {
+        fill: #fee585;
+        font-size: 1rem;
+      } 
+
+      .axis.axis-y text {
+        fill: #6f6f6f;
+        font-size: 0.7rem;
+      } 
+
+      h1 {
+        text-align: center;
+        margin-top: 10vh;
+        margin-bottom: 5vh;
+        font-size: 3.6rem;
+        width: 80%;
+        color: #eaeaea;
+        transform: rotate(-1deg);
+        letter-spacing: 2px;
+        text-shadow: 3px 3px #fecb0b;
+      }
+
+      h1 span {
+        display: inline-block;
+        cursor: pointer;
+        transition: scale 0.1s rotate 0.2s;
+      }
+
+      h1 span:hover {
+        transform: scale(1.8) rotate(5deg);
+      }
+
+      h1:after {
+        content: "";
+        display: block;
+        width: 60%;
+        padding-top: 5px;
+        margin: 0px auto;
+        border-bottom: 12px solid #fecb0b;
+      }
+
+      .jobline {
+        transition: stroke 1s;
+      }
+
+      #mywork {
+        display: block;
+        box-shadow: -2px 3px 28px 0px rgba(0,0,0,0.75);
+      }
+    </style>
+
+    <script>
+
+      // Get svg
+      const container = document.querySelector('.container').offsetWidth;
+      const margin = {top: 50, right: 30, bottom: 50, left: 50};
+
+      const height = 500 - margin.top - margin.bottom;
+      const width = (container * .9) - margin.left - margin.right;
+
+      const parseDate = d3.timeParse('%Y-%m-%d');
+      const parseHour = d3.timeParse('%H:%M:%S');
+      const formatHour = d3.timeFormat('%H');
+      var myData = null;
+
+      const svg = d3.select('#mywork')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom);
+
+      const g = svg.append('g')
+        .attr('width', width)
+        .attr('height', height)
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+      // Define the scales for the axises
+      const x = d3.scaleTime().range([0, width]);
+      const y = d3.scaleLinear().range([height, 0]);
+
+      // Create axis generators
+      var xAxis = d3.axisBottom(x)
+        .ticks(d3.timeYear);
+
+      var yAxis = d3.axisLeft(y)
+        .ticks(15)
+        .tickFormat(function(d) {
+          var minutes = (d % 60).toString();
+          var hour = Math.floor(d / parseFloat(60));
+          var time = hour.toString() + ":" + minutes + ":00";
+          return formatHour(parseHour(time));
+        });
+  
+      d3.csv("work.csv")
+        .then(function(data) {
+          const dataUpdated = data.map((item) => {
+            
+            // Convert start
+            let parsedHourStart = parseHour(item.start);
+            let minutesStart = parsedHourStart.getMinutes();
+            let hoursStart = parsedHourStart.getHours();
+            let startMinutes = hoursStart * 60 + minutesStart;
+
+            // Convert end
+            let parsedHourEnd = parseHour(item.end);
+            let minutesEnd = parsedHourEnd.getMinutes();
+            let hoursEnd = parsedHourEnd.getHours();
+            let endMinutes = hoursEnd * 60 + minutesEnd;
+
+            return {
+              Datum: parseDate(item.Datum),
+              end: item.end,
+              start: item.start,
+              startMinutes,
+              endMinutes,
+              typ: item.Typ
+            }
+          });
+
+          myData = dataUpdated;
+          
+          drawSVG();
+          generateButton();
+        });
+
+
+      function drawSVG() {
+        // Define domain of data
+        x.domain(d3.extent(myData, function(d) { 
+          return d.Datum; 
+        }));
+
+        y.domain([1, d3.max(myData, function(d) { 
+          return d.endMinutes;
+        })]);
+        
+
+        // Append x axis
+        g.append('g')
+            .attr('class', 'axis axis-x')
+            .attr('transform', 'translate(0,' + height + ')')
+            .call(xAxis);
+
+        // Append y axis
+        g.append('g')
+          .attr('class', 'axis axis-y')
+          .call(yAxis);
+
+        // Append vertical lines
+        g.append('g')
+          .attr('class', 'lines')
+          .selectAll('line')
+          .data(myData)
+          .enter().append('line')
+          .attr('x1', function(d) { 
+            return x(d.Datum); 
+          })
+          .attr('y1', function(d) { 
+            return y(d.startMinutes); 
+          })
+          .attr('x2', function(d) { 
+            return x(d.Datum); 
+          })
+          .attr('y2', function(d) { 
+            return y(d.endMinutes);
+          })
+          .attr('class', 'jobline')
+          .style('stroke-width', 0.2)
+          .style('stroke', '#6a6a6a');
+      }
+
+      function highlightLines(e) {
+        const button = e.target;
+        button.classList.toggle("highlight");
+        const attribute = button.getAttribute('data-type');
+
+        const lines = d3.selectAll('.jobline')
+          .filter(function(d) { return d.typ == attribute });
+
+        if (button.classList.contains('highlight')) {
+          lines
+            .style('stroke', (line) => {
+              if (attribute == "WissMit") {
+                return "#0bfecb";
+              }
+              return "#fee585";
+            });
+        } else {
+          lines
+            .style('stroke', (line) => {
+              return '#6a6a6a';
+            });
+        }
+      }
+
+      function generateButton() {
+        const unique = [...new Set(myData.map(item => item.typ))];
+
+        // Create color scales
+        const colorScale = d3.scaleOrdinal()
+          .domain(unique)
+          .range(d3.schemePaired);
+
+        const buttons = unique.map((button) => {
+          return {
+            button,
+            color: colorScale(button),
+          }
+        }).map((button, index) => {
+          return `<button data-type="${button.button}" 
+                          class="button button${index}
+                          ${button.button == "WissMit" ? "work-button" : ""}">${button.button}</button>`
+        }).join('');
+
+        document.querySelector('.buttons').innerHTML = buttons;
+
+        addEventsToButtons();
+      }
+
+      function addEventsToButtons() {
+        // Add Event Listener
+        const buttons = document.querySelectorAll('.button').forEach((button)=>  {
+          button.addEventListener("click", highlightLines);
+        });
+      }
+
+
+      // Make heading funny
+      const heading = document.querySelector('h1');
+      const destructuredHeading = [...heading.innerHTML];
+      const newHeading = destructuredHeading.map((letter) => {
+        return `<span>${letter == " " ? "&nbsp;" : letter}</span>`;
+      }).join('');
+
+
+      heading.innerHTML = newHeading;
+
+     
+    </script>
+  </body>
+</html>
